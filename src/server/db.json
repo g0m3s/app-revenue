@@ -1,0 +1,129 @@
+{
+    "carnes": [
+      {
+        "id": 1,
+        "nome": "CONTRAFILÉ"
+      },
+      {
+        "id": 2,
+        "nome": "ALCATRA"
+      },
+      {
+        "id": 3,
+        "nome": "PICANHA"
+      },
+      {
+        "id": 4,
+        "nome": "PATINHO"
+      },
+      {
+        "id": 5,
+        "nome": "FRALDINHA"
+      },
+      {
+        "id": 6,
+        "nome": "MAMINHA"
+      },
+      {
+        "id": 7,
+        "nome": "FILÉ DE COSTELA"
+      }
+    ],
+
+    "legumes": [
+      {
+        "id": 1,
+        "nome": "Berinjela"
+      },
+      {
+        "id": 2,
+        "nome": "Abobrinha"
+      },
+      {
+        "id": 3,
+        "nome": "Cenoura"
+      },
+      {
+        "id": 4,
+        "nome": "Brócolis"
+      },
+      {
+        "id": 5,
+        "nome": "Espinafre"
+      },
+      {
+        "id": 6,
+        "nome": "Rúcula"
+      },
+      {
+        "id": 7,
+        "nome": "Almeirão"
+      }
+    ],
+
+    "molhos": [
+
+        {
+            "id": "1",
+            "nome": "Molho de alho"
+        },
+        {
+            "id": "2",
+            "nome": "Molho de mostarda e creme de leite"
+        },
+        {
+            "id": "3",
+            "nome": "Molho de creme de queijo"
+        },
+        {
+            "id": "4",
+            "nome": "Molho tártaro"
+        },
+        {
+            "id": "5",
+            "nome": "Molho de mostarda e mel"
+        },
+        {
+            "id": "6",
+            "nome": "Molho de vinho tinto para carne"
+        },
+        {
+            "id": "7",
+            "nome": "Molho champignon"
+        }
+    ],
+
+    "frutas": [
+
+        {
+            "id": "1",
+            "nome": "Damasco"
+        },
+        {
+            "id": 2,
+            "nome": "Abobrinha"
+        },
+        {
+            "id": 3,
+            "nome": "Figo"
+        },
+        {
+            "id": 4,
+            "nome": "Framboesa"
+        },
+        {
+            "id": 5,
+            "nome": "Guaraná"
+        },
+        {
+            "id": 6,
+            "nome": "Jambo"
+        },
+        {
+            "id": 7,
+            "nome": "Jamelão"
+        }
+
+    ]
+
+}
