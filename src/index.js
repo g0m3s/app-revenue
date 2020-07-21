@@ -12,7 +12,8 @@ import {
 import RBSheet from "react-native-raw-bottom-sheet";
 import * as Animatable from 'react-native-animatable'
 
-var teste = "C"
+// import testeJson from './server/conv2' 
+
 
 export default class Example extends Component {
 
@@ -21,8 +22,10 @@ export default class Example extends Component {
         super(props)
         this.state = {
 
-            choice: [],
-            filtered: []
+            choice:    [],
+            filtered:  [],
+            selecteds: [],
+            revenues:  []
 
         }
 
@@ -30,7 +33,7 @@ export default class Example extends Component {
 
     loadMeat = () => {
 
-        fetch("http://localhost:3000/carnes")
+        fetch("http://localhost:3333/carnes")
  
             .then((response) => response.json())
             .then((json) => {
@@ -47,7 +50,7 @@ export default class Example extends Component {
 
     loadSauces = () => {
 
-        fetch("http://localhost:3000/molhos")
+        fetch("http://localhost:3333/molhos")
  
             .then((response) => response.json())
             .then((json) => {
@@ -63,7 +66,7 @@ export default class Example extends Component {
 
     loadVegetables = () => {
 
-        fetch("http://localhost:3000/legumes")
+        fetch("http://localhost:3333/legumes")
 
             .then( response => response.json())
             .then((json) => {
@@ -81,7 +84,7 @@ export default class Example extends Component {
 
     loadFruits = () => {
 
-        fetch("http://localhost:3000/frutas")
+        fetch("http://localhost:3333/frutas")
 
             .then( response => response.json())
             .then((json) => {
@@ -97,6 +100,23 @@ export default class Example extends Component {
 
     }
 
+    loadRevenues = () => {
+
+        fetch("http://localhost:3333/receitas")
+
+            .then( response => response.json())
+            .then((json) => {
+
+                this.setState({
+
+                    choice: json,
+                    filtered: json
+                    
+                })
+
+            });
+
+    }
 
     filtro = (txt) => {
 
@@ -118,8 +138,31 @@ export default class Example extends Component {
         }
 
 
-    } //a ideia e fazer o filtro e passar ele para a fatlist. posso fazer um if para retornar tudo se nao tiver nenhum filtro
+    }
 
+    searchRevenues = () => {
+        var includ = this.state.selecteds[0]
+        // console.log('vapo')
+
+        //fazer um forEach para todos os valores de "selecteds"
+
+        this.setState({
+
+            filtered: this.state.revenues.filter(function (res) { return res.nome.includes(includ)
+                
+                // if ( res.nome.includes() === " Ingredientes" ) {
+
+                //     // return res.secao.conteudo.includes(includ)
+                //     return console.log('vapo')
+                //     // return res.secao
+                // }
+            }) 
+
+        })
+
+        // console.log(this.state.filtered)
+
+    }
 
   render() {
 
@@ -270,7 +313,7 @@ export default class Example extends Component {
 
                         >
 
-                            <Text style = {styles.TouchableOpacityItemText} >Molhos</Text>
+                            <Text style = {styles.TouchableOpacityItemText} >{this.state.selecteds[0]}</Text>
 
                         </TouchableOpacity>
 
@@ -281,7 +324,7 @@ export default class Example extends Component {
 
                         >
 
-                            <Text style = {styles.TouchableOpacityItemText} >Molhos</Text>
+                            <Text style = {styles.TouchableOpacityItemText} >{this.state.selecteds[1]}</Text>
 
                         </TouchableOpacity>
 
@@ -292,7 +335,7 @@ export default class Example extends Component {
 
                         >
 
-                            <Text style = {styles.TouchableOpacityItemText} >Molhos</Text>
+                            <Text style = {styles.TouchableOpacityItemText} >{this.state.selecteds[2]}</Text>
 
                         </TouchableOpacity>
 
@@ -308,7 +351,7 @@ export default class Example extends Component {
 
                         >
 
-                            <Text style = {styles.TouchableOpacityItemText} >Molhos</Text>
+                            <Text style = {styles.TouchableOpacityItemText} >{this.state.selecteds[3]}</Text>
 
                         </TouchableOpacity>
 
@@ -319,7 +362,7 @@ export default class Example extends Component {
 
                         >
 
-                            <Text style = {styles.TouchableOpacityItemText} >Molhos</Text>
+                            <Text style = {styles.TouchableOpacityItemText} >{this.state.selecteds[4]}</Text>
 
                         </TouchableOpacity>
 
@@ -330,7 +373,7 @@ export default class Example extends Component {
 
                         >
 
-                            <Text style = {styles.TouchableOpacityItemText} >Molhos</Text>
+                            <Text style = {styles.TouchableOpacityItemText} >{this.state.selecteds[5]}</Text>
 
                         </TouchableOpacity>
 
@@ -347,7 +390,7 @@ export default class Example extends Component {
 
                         >
 
-                            <Text style = {styles.TouchableOpacityItemText} >Molhos</Text>
+                            <Text style = {styles.TouchableOpacityItemText} >{this.state.selecteds[6]}</Text>
 
                         </TouchableOpacity>
 
@@ -358,7 +401,7 @@ export default class Example extends Component {
 
                         >
 
-                            <Text style = {styles.TouchableOpacityItemText} >Molhos</Text>
+                            <Text style = {styles.TouchableOpacityItemText} >{this.state.selecteds[7]}</Text>
 
                         </TouchableOpacity>
 
@@ -369,7 +412,7 @@ export default class Example extends Component {
 
                         >
 
-                            <Text style = {styles.TouchableOpacityItemText} >Molhos</Text>
+                            <Text style = {styles.TouchableOpacityItemText} >{this.state.selecteds[8]}</Text>
 
                         </TouchableOpacity>
 
@@ -385,7 +428,7 @@ export default class Example extends Component {
 
                         >
 
-                            <Text style = {styles.TouchableOpacityItemText} >Molhos</Text>
+                            <Text style = {styles.TouchableOpacityItemText} >{this.state.selecteds[9]}</Text>
 
                         </TouchableOpacity>
 
@@ -396,7 +439,7 @@ export default class Example extends Component {
 
                         >
 
-                            <Text style = {styles.TouchableOpacityItemText} >Molhos</Text>
+                            <Text style = {styles.TouchableOpacityItemText} >{this.state.selecteds[10]}</Text>
 
                         </TouchableOpacity>
 
@@ -407,14 +450,13 @@ export default class Example extends Component {
 
                         >
 
-                            <Text style = {styles.TouchableOpacityItemText} >Molhos</Text>
+                            <Text style = {styles.TouchableOpacityItemText} >{this.state.selecteds[11]}</Text>
 
                         </TouchableOpacity>
 
 
                     </View>
-						
-
+					
                 </Animatable.View>
 
                 <Animatable.View
@@ -425,7 +467,10 @@ export default class Example extends Component {
 
                     <TouchableOpacity
 
-                        onPress = { () => {}}
+                        onPress = { () => { this.loadRevenues(); this.searchRevenues()
+                            // this.searchRevenues(this.state.selecteds);
+                            this.RBSheet.open() 
+                        }}
                         style = {styles.buttonPlay}
 
                     > 
@@ -436,7 +481,6 @@ export default class Example extends Component {
                             source = {require('./img/search.png')}
 
                         />
-
 
                     </TouchableOpacity>
 
@@ -474,15 +518,29 @@ export default class Example extends Component {
 					/>
 
 					<FlatList
-                        // data = { this.state.choice.filter(function (res) { return res.nome === "FRALDINHA"} ) }
                         data = {this.state.filtered}
-						renderItem={ ({item}) =>( <TouchableOpacity style={styles.itemListFood}><Text style = {styles.textItemListFood} >{item.nome}</Text></TouchableOpacity> )}
                         style = {styles.listFood}
+						renderItem={ ({item}) =>(
+
+                            <TouchableOpacity 
+                                style={styles.itemListFood}
+                                onPress= {() => {
+
+                                    this.setState({
+
+                                        selecteds: this.state.selecteds.concat(item.nome)
+
+                                    })
+
+                                }}
+                            >
+
+                                <Text style = {styles.textItemListFood} >{item.nome}</Text>
+
+                            </TouchableOpacity> 
+                        )}
 
 					/>
-
-                    <Text>{this.state.txt}</Text>
-						
 
 					</View>
 
@@ -495,5 +553,7 @@ export default class Example extends Component {
 }
 
 import styles from './styles/mainStyle'
+
+
 
 // import bottomSheet from './components/bottom-sheet'
