@@ -6,16 +6,21 @@ import {
     FlatList,
     Image,
 	TouchableOpacity,
-	TextInput,
+    TextInput,
+    Button,
+    ScrollView
 
 } from 'react-native'
 import RBSheet from "react-native-raw-bottom-sheet";
+import RBSheet2 from "react-native-raw-bottom-sheet";
+import RBSheet3 from "react-native-raw-bottom-sheet";
 import * as Animatable from 'react-native-animatable'
 
-// import testeJson from './server/conv2' 
+var teste = []
 
 
-export default class Example extends Component {
+export default class App extends Component {
+
 
     constructor (props) {
 
@@ -25,7 +30,11 @@ export default class Example extends Component {
             choice:    [],
             filtered:  [],
             selecteds: [],
-            revenues:  []
+            recipes:  [],
+            ingredients: [],
+            howToMake: "",
+            recipeName: "",
+            secao: []
 
         }
 
@@ -100,7 +109,7 @@ export default class Example extends Component {
 
     }
 
-    loadRevenues = () => {
+    loadRecipes = () => {
 
         fetch("http://localhost:3333/receitas")
 
@@ -140,7 +149,7 @@ export default class Example extends Component {
 
     }
 
-    searchRevenues = () => {
+    searchRecipes = () => {
         var includ = this.state.selecteds[0]
         // console.log('vapo')
 
@@ -148,7 +157,7 @@ export default class Example extends Component {
 
         this.setState({
 
-            filtered: this.state.revenues.filter(function (res) { return res.nome.includes(includ)
+            filtered: this.state.recipes.filter(function (res) { return res.nome.includes(includ)
                 
                 // if ( res.nome.includes() === " Ingredientes" ) {
 
@@ -164,26 +173,92 @@ export default class Example extends Component {
 
     }
 
+    makeMap = (nomeItem) => {
+
+        this.setState ({
+
+            nomeReceita: nomeItem
+
+        })
+
+        // this.state.filtered.map( (filtrados) => {
+
+        //     if(filtrados.nome == nomeItem ) {
+
+        //         this.state.filtered.map( (itemMapeado) => {
+
+        //             itemMapeado.secao.map( (dentroItemMapeado) => {
+        
+        //                 if (dentroItemMapeado.nome ==  " Ingredientes" ) {
+        
+        //                     this.setState({ 
+                                
+        //                         ingredients: dentroItemMapeado.conteudo
+                            
+        //                     })
+        
+        //                 } 
+        
+        //             } )
+        
+        //         } )
+
+
+        //     }
+
+        // } )
+
+        
+
+    }
+
+    testeSecao = (secao) => {
+
+        this.setState({
+
+            secao: secao
+
+        })
+
+    }
+
+    addEspaco = () => {
+
+        var teste2 = []
+
+        this.state.secao.map((item) => {
+
+            var i = 0
+
+            for ( i; item.conteudo.length >= i; i++) {
+
+                teste2[i] =  item.conteudo.concat("\n ")
+                        
+            }
+
+        })
+
+        console.log(teste2)
+
+        return teste2
+
+    }
+
   render() {
 
     data = [
 
-      {key: 'Devin'},
-      {key: 'Dan'},
-      {key: 'Dominic'},
-      {key: 'Jackson'},
-      {key: 'James'},
-      {key: 'Joel'},
-      {key: 'John'},
-      {key: 'Jillian'},
-      {key: 'Jimmy'},
-      {key: 'Julie'},
+      {key: 'Torta'},
+      {key: 'Pudim'},
+      {key: 'Cocada'},
 
-	]
+    ]
+    
     
     return (
 
-		<View style = {styles.container} >
+
+		<ScrollView style = {styles.container} >
 
 			<View style = {styles.viewList}>
 
@@ -196,6 +271,7 @@ export default class Example extends Component {
 
 						
 					>Minhas Receitas</Animatable.Text>
+     
 
 				</View>
 
@@ -245,7 +321,11 @@ export default class Example extends Component {
                             <TouchableOpacity
                             
                                 style = {styles.TouchableOpacity}
-                                onPress={() => {this.loadMeat(); this.filtro(); this.RBSheet.open(); }}
+                                onPress={() => {
+                                    this.loadMeat();
+                                    this.filtro();
+                                    this.RBSheet.open();
+                                }}
 
                             >
 
@@ -467,9 +547,10 @@ export default class Example extends Component {
 
                     <TouchableOpacity
 
-                        onPress = { () => { this.loadRevenues(); this.searchRevenues()
-                            // this.searchRevenues(this.state.selecteds);
-                            this.RBSheet.open() 
+                        onPress = { () => { 
+                            this.loadRecipes();
+                            this.searchRecipes();
+                            this.RBSheet3.open();
                         }}
                         style = {styles.buttonPlay}
 
@@ -546,7 +627,126 @@ export default class Example extends Component {
 
 				</RBSheet>
 
-		</View>
+                <RBSheet2
+                    ref={ref => {
+					this.RBSheet2 = ref;
+				}}
+				height={700}
+				openDuration={450}
+				customStyles={{
+					container: {
+					alignItems: "center",
+					borderRadius: 30
+					}
+				}} >
+
+                    <ScrollView style = {styles.containerRBSheet} >
+
+                        <View style = {styles.headerRBSheet}>
+                        
+                            <Text style = {styles.nomeReceita} >{this.state.nomeReceita}</Text>
+
+                        </View>
+                        
+
+                        <View>
+
+                            {/* <Text style = {styles.nomeSecao} >Ingredientes:</Text> */}
+                            <Text style = {styles.nomeSecao} >Receita:</Text>
+
+                            <FlatList
+
+                                data= {this.state.secao}
+                                // data= {teste}
+                                renderItem={ ({item}) => (
+
+                                    <Text style = {styles.textItemIngredientes} > - { item.conteudo.concat("\n ") }</Text>
+
+                                )}
+                                style = {styles.listaIngredientes}
+                                animation="zoomInUp"
+                                useNativeDriver
+                            />
+
+                        </View>
+{/* 
+                        <View>
+                            
+                            <Text style = {styles.nomeSecao} >Como fazer:</Text>
+                            
+                        </View>
+
+                        <View>
+                            
+                            <Text style = {styles.nomeSecao} >Outras Informações:</Text>
+                            
+                        </View> */}
+
+                    </ScrollView>
+
+
+                </RBSheet2>
+
+                <RBSheet3
+				ref={ref => {
+					this.RBSheet3 = ref;
+				}}
+				height={700}
+                openDuration={450}
+				customStyles={{
+					container: {
+					paddingTop: 40,
+					alignItems: "center",
+					borderRadius: 30
+					}
+				}}
+				>
+					<View style = {styles.viewChoiceFood}>
+						
+					<TextInput
+						style={styles.textInput}
+						onChangeText={(text) => {
+
+                            this.filtro(text)
+                        }
+                    }
+    
+                        placeholder = "Digite a receita"
+                        autoCorrect = {false}
+
+					/>
+
+					<FlatList
+                        data = {this.state.filtered}
+                        style = {styles.listFood}
+						renderItem={ ({item}) =>(
+
+                            <TouchableOpacity 
+                                style={styles.itemListFood}
+                                onPress= { () => {
+
+                                    // teste = this.addEspaco();
+                                    this.makeMap(item.nome);
+                                    this.testeSecao(item.secao);
+                                    this.RBSheet3.close();
+                                    setTimeout( () => {this.RBSheet2.open();}, 300 )
+
+                                }}
+                            >
+
+                                <Text style = {styles.textItemListFood} >{item.nome}</Text>
+
+                            </TouchableOpacity> 
+                        )}
+
+					/>
+
+					</View>
+
+				</RBSheet3>
+
+
+		</ScrollView>
 
     )
   }
