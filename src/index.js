@@ -14,9 +14,10 @@ import {
 import RBSheet from "react-native-raw-bottom-sheet";
 import RBSheet2 from "react-native-raw-bottom-sheet";
 import RBSheet3 from "react-native-raw-bottom-sheet";
+import telaReceitaSalva from "react-native-raw-bottom-sheet";
 import * as Animatable from 'react-native-animatable'
+import AsyncStorage from '@react-native-community/async-storage';
 
-var teste = []
 
 
 export default class App extends Component {
@@ -34,7 +35,8 @@ export default class App extends Component {
             ingredients: [],
             howToMake: "",
             recipeName: "",
-            secao: []
+            secao: [],
+            recipeToSave: []
 
         }
 
@@ -159,88 +161,37 @@ export default class App extends Component {
 
             filtered: this.state.recipes.filter(function (res) { return res.nome.includes(includ)
                 
-                // if ( res.nome.includes() === " Ingredientes" ) {
-
-                //     // return res.secao.conteudo.includes(includ)
-                //     return console.log('vapo')
-                //     // return res.secao
-                // }
             }) 
 
         })
 
-        // console.log(this.state.filtered)
 
     }
 
-    makeMap = (nomeItem) => {
+    saveRecipe = async () => {
+
+        try {
+
+            const jsonValue = JSON.stringify(this.state.recipeToSave)
+
+            await AsyncStorage.setItem('receita1', jsonValue)
+
+        } catch (e) {
+            console.log(e)
+        }
+
+    }
+
+    setAllDatas = (item) => {
 
         this.setState ({
 
-            nomeReceita: nomeItem
+            nomeReceita: item.nome,
+            secao: item.secao,
+            recipeToSave: item
 
         })
 
-        // this.state.filtered.map( (filtrados) => {
-
-        //     if(filtrados.nome == nomeItem ) {
-
-        //         this.state.filtered.map( (itemMapeado) => {
-
-        //             itemMapeado.secao.map( (dentroItemMapeado) => {
-        
-        //                 if (dentroItemMapeado.nome ==  " Ingredientes" ) {
-        
-        //                     this.setState({ 
-                                
-        //                         ingredients: dentroItemMapeado.conteudo
-                            
-        //                     })
-        
-        //                 } 
-        
-        //             } )
-        
-        //         } )
-
-
-        //     }
-
-        // } )
-
-        
-
-    }
-
-    testeSecao = (secao) => {
-
-        this.setState({
-
-            secao: secao
-
-        })
-
-    }
-
-    addEspaco = () => {
-
-        var teste2 = []
-
-        this.state.secao.map((item) => {
-
-            var i = 0
-
-            for ( i; item.conteudo.length >= i; i++) {
-
-                teste2[i] =  item.conteudo.concat("\n ")
-                        
-            }
-
-        })
-
-        console.log(teste2)
-
-        return teste2
 
     }
 
@@ -284,12 +235,30 @@ export default class App extends Component {
 				>
 
 					<FlatList
-						data= {data}
-						renderItem={ ({item}) => ( <TouchableOpacity style = {styles.item} ><Text style = {styles.textItem} >{item.key}</Text></TouchableOpacity> )}
-						horizontal = {true}
+                        data= {data}
+                        horizontal = {true}
 						style = {styles.list}
 						animation="zoomInUp"
 						useNativeDriver
+						renderItem={ ({item}) => (
+
+                            <TouchableOpacity
+                                style = {styles.item}
+                                onPress = { async () => {
+                                    const receita = await AsyncStorage.getItem('receita1')
+                                    this.setAllDatas(JSON.parse(receita));
+                                    setTimeout( () => {this.RBSheet2.open();}, 300 )
+                                    }
+                                }
+                            >
+
+                                <Text style = {styles.textItem} >{item.key}</Text>
+
+                            </TouchableOpacity>
+
+                            )
+                        }
+						
 					/>
 					
 				</Animatable.View>
@@ -649,18 +618,16 @@ export default class App extends Component {
                         </View>
                         
 
-                        <View>
+                        <View style = { styles.mainReceita } >
 
-                            {/* <Text style = {styles.nomeSecao} >Ingredientes:</Text> */}
                             <Text style = {styles.nomeSecao} >Receita:</Text>
 
                             <FlatList
 
                                 data= {this.state.secao}
-                                // data= {teste}
                                 renderItem={ ({item}) => (
 
-                                    <Text style = {styles.textItemIngredientes} > - { item.conteudo.concat("\n ") }</Text>
+                                    <Text style = {styles.textItemIngredientes} > { item.conteudo.join("\n ") }</Text>
 
                                 )}
                                 style = {styles.listaIngredientes}
@@ -668,19 +635,24 @@ export default class App extends Component {
                                 useNativeDriver
                             />
 
-                        </View>
-{/* 
-                        <View>
-                            
-                            <Text style = {styles.nomeSecao} >Como fazer:</Text>
-                            
-                        </View>
+                            <View style = {styles.viewSalvarReceita} >
 
-                        <View>
-                            
-                            <Text style = {styles.nomeSecao} >Outras Informações:</Text>
-                            
-                        </View> */}
+                                <TouchableOpacity
+                                    style = {styles.salvarReceita} 
+                                    onPress = {this.saveRecipe}
+                                >
+                                    <Image
+
+                                        style = {styles.imgSalvarReceita}
+                                        source = {require('./img/fav.png')}
+                                        
+                                    />
+
+                                </TouchableOpacity>
+
+                            </View>
+
+                        </View>
 
                     </ScrollView>
 
@@ -724,10 +696,7 @@ export default class App extends Component {
                             <TouchableOpacity 
                                 style={styles.itemListFood}
                                 onPress= { () => {
-
-                                    // teste = this.addEspaco();
-                                    this.makeMap(item.nome);
-                                    this.testeSecao(item.secao);
+                                    this.setAllDatas(item)
                                     this.RBSheet3.close();
                                     setTimeout( () => {this.RBSheet2.open();}, 300 )
 
@@ -744,7 +713,7 @@ export default class App extends Component {
 					</View>
 
 				</RBSheet3>
-
+                
 
 		</ScrollView>
 
