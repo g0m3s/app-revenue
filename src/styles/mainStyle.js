@@ -192,6 +192,78 @@ const styles = StyleSheet.create({
         height: 40,
         width: 40,
 
+    },
+    containerRBSheet: {
+
+        flex: 1,
+        width: "100%",
+        margin: 0,
+
+    },
+    headerRBSheet:{
+
+        height: 70,
+        width: "100%",
+        backgroundColor: "#0099ff",
+        alignItems: "center",
+        justifyContent: "center"
+
+    },
+
+    mainReceita: {
+
+        paddingRight: 5,
+
+    },
+    nomeReceita: {
+
+        fontSize: 18,
+        color: "white"
+
+    },
+    nomeSecao: {
+
+        fontSize: 18,
+        color: "#0099ff",
+        marginLeft: 10,
+        marginTop:5,
+        marginBottom: 5
+
+    },
+    listaIngredientes: {
+
+
+
+    },
+    textItemIngredientes: {
+
+        fontSize: 16,
+        marginLeft: 15
+
+    },
+    viewSalvarReceita: {
+
+        width: "100%",
+        justifyContent: "flex-end",
+        alignItems: "flex-end",
+        paddingRight: 15
+
+    },
+    salvarReceita: {
+
+        height: 70,
+        width: 70,
+        borderRadius: 35,
+        backgroundColor: "#0099ff",
+        alignItems: "center",
+        justifyContent: "center",
+
+    },
+    imgSalvarReceita: {
+
+        height: 40,
+        width: 40,
+
     }
 
 
